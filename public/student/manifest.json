@@ -1,0 +1,10 @@
+{
+  "name": "Pragya Coaching",
+  "short_name": "Pragya Coaching",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#faf6ee",
+  "theme_color": "#2f4858",
+  "icons": []
+}
