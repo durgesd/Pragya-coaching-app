@@ -1,1 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Pragya Coaching — Teacher</title>
+<link rel="stylesheet" href="/shared/styles.css">
+</head>
+<body>
 
+<div class="view active" id="view-login">
+  <header class="app-header"><h1>🍎 Pragya Coaching</h1><p>Teacher Login</p></header>
+  <main>
+    <div class="card">
+      <label>Username</label>
+      <input type="text" id="loginUsername" autocomplete="username">
+      <label>Password</label>
+      <input type="password" id="loginPassword" autocomplete="current-password">
+      <div class="btn-row"><button class="btn primary block" onclick="teacherLogin()">Log In</button></div>
+      <div class="error-msg" id="loginError"></div>
+    </div>
+  </main>
+</div>
+
+<div class="view" id="view-app">
+  <header class="app-header"><h1>🍎 Pragya Coaching</h1><p>Teacher Panel</p></header>
+  <main>
+
+    <div class="view active" id="tabview-send">
+      <div class="card">
+        <h3>📤 Send Homework / Worksheet</h3>
+        <label>Title</label>
+        <input type="text" id="hwTitle" placeholder="e.g. Chapter 4 Worksheet">
+        <label>Note (optional)</label>
+        <textarea id="hwNote" placeholder="Instructions for students…" style="min-height:60px;"></textarea>
+
+        <label>Send to</label>
+        <select id="hwTargetType" onchange="onTargetTypeChange()">
+          <option value="class">A whole class</option>
+          <option value="students">Specific student(s)</option>
+        </select>
+
+        <div id="hwClassPicker">
+          <label>Class</label>
+          <select id="hwClassSelect"></select>
+        </div>
+        <div id="hwStudentPicker" style="display:none;">
+          <label>Class (to pick students from)</label>
+          <select id="hwStudentClassSelect" onchange="loadStudentCheckboxes()"></select>
+          <div id="hwStudentCheckboxes" style="margin-top:6px;"></div>
+        </div>
+
+        <label>Content</label>
+        <div class="btn-row" style="margin-top:0;">
+          <button class="btn ghost small" id="contentModeFileBtn" onclick="setContentMode('file')">📎 Upload File</button>
+          <button class="btn ghost small" id="contentModeHtmlBtn" onclick="setContentMode('html')">✍️ Paste HTML/Text</button>
+        </div>
+        <div id="contentFileArea">
+          <input type="file" id="hwFile" accept="image/*,video/*,application/pdf,text/html,.doc,.docx,.ppt,.pptx" style="margin-top:8px;">
+          <p class="hint">Photo, video, PDF, HTML, or any other file (up to 150MB).</p>
+        </div>
+        <div id="contentHtmlArea" style="display:none;">
+          <textarea id="hwHtmlContent" placeholder="Paste worksheet text or HTML here…"></textarea>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn sage block" id="sendHwBtn" onclick="sendHomework()">📤 Send</button>
+        </div>
+        <div class="error-msg" id="sendHwError"></div>
+        <p class="hint" id="sendHwStatus"></p>
+      </div>
+    </div>
+
+    <div class="view" id="tabview-classes">
+      <div class="card">
+        <h3>🏫 Classes</h3>
+        <div class="btn-row" style="margin-top:0;">
+          <input type="text" id="newClassName" placeholder="New class name (e.g. Class 8)">
+          <button class="btn brass small" onclick="createClass()">➕ Add</button>
+        </div>
+        <div id="classesList" style="margin-top:10px;"></div>
+      </div>
+      <div class="card">
+        <h3>🧑‍🎓 Students</h3>
+        <label>Class</label>
+        <select id="studentsClassFilter" onchange="renderStudentsForClass()"></select>
+        <div class="btn-row">
+          <input type="text" id="newStudentName" placeholder="Student name">
+          <input type="text" id="newStudentRoll" placeholder="Roll no." style="max-width:100px;">
+          <button class="btn brass small" onclick="createStudent()">➕ Add Student</button>
+        </div>
+        <div id="studentsList" style="margin-top:10px;"></div>
+      </div>
+    </div>
+
+    <div class="view" id="tabview-history">
+      <div class="card">
+        <h3>🗂 Sent Homework</h3>
+        <p class="hint">See who has opened each one.</p>
+      </div>
+      <div id="historyList"></div>
+    </div>
+
+  </main>
+
+  <div class="tabbar">
+    <button class="tab-btn active" id="tab-send" onclick="showTab('send')"><span class="icon">📤</span>Send</button>
+    <button class="tab-btn" id="tab-classes" onclick="showTab('classes')"><span class="icon">🏫</span>Classes</button>
+    <button class="tab-btn" id="tab-history" onclick="showTab('history')"><span class="icon">🗂</span>History</button>
+    <button class="tab-btn" onclick="logout()"><span class="icon">🚪</span>Logout</button>
+  </div>
+</div>
+
+<!-- PIN reveal modal -->
+<div class="modal-overlay" id="pinModal">
+  <div class="modal-sheet">
+    <div class="modal-head"><h3>Student Login Details</h3><button class="close-x" onclick="closePinModal()">✕</button></div>
+    <div class="modal-body">
+      <p class="hint">Share these with the student (e.g. on WhatsApp). The PIN is only shown once — use "Reset PIN" later if it's lost.</p>
+      <div class="pin-reveal" id="pinRevealContent"></div>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
