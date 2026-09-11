@@ -1,0 +1,20 @@
+{
+  "name": "pragya-coaching-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Secure homework/worksheet delivery app for Pragya Coaching — class-wise or student-wise, in-app-only viewing, push notifications.",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "setup:teacher": "node scripts/create-teacher.js",
+    "setup:vapid": "node scripts/generate-vapid-keys.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.3.0",
+    "web-push": "^3.6.7"
+  }
+}
